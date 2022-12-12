@@ -4,17 +4,6 @@ const bodyParser = require("body-parser");
 
 const movies = require("../db/db.js");
 
-router.get("/", (req, res) => {
-  res.send("Welcome to my Movies API");
-  // const response = {
-  //   status: "success",
-  //   msg: "data sent",
-  //   data: users,
-  //   total: users.length,
-  // };
-  // res.json(response);
-});
-
 router.get("/movies", (req, res) => {
   const response = {
     status: "success",

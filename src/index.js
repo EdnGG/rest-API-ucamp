@@ -39,6 +39,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // ROUTES
+
+app.use(require("./routes/index"));
 app.use(require("./routes/movies"));
 
 app.listen(PORT, () => {
