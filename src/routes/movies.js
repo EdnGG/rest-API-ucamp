@@ -1,61 +1,22 @@
 const express = require("express");
 const router = express.Router();
-const bodyParser = require("body-parser");
+// const bodyParser = require("body-parser");
+const {
+  postMovie,
+  getAllMovies,
+  updateMovie,
+  deleteMovie,
+} = require("../controllers/movies.controller.js");
 
-const movies = require("../db/db.js");
+/* DB en local
+  const movies = require("../db/db.js");
+*/
+router.get("/movies", getAllMovies);
 
-router.get("/movies", (req, res) => {
-  const response = {
-    status: "success",
-    msg: "Get all movies",
-    data: movies,
-    total: movies.length,
-  };
-  res.json(response);
-});
+router.post("/movies", postMovie);
 
-router.post("/movies", (req, res) => {
-  // res.send("Post a movie");
-  movies.push(req.body);
-  const response = {
-    status: "success",
-    msg: "New movie posted",
-    data: movies,
-    total: movies.length,
-  };
-  res.json(response);
-});
+router.put("/movies/:id", updateMovie);
 
-router.put("/movies/:id", (req, res) => {
-  // res.send("Update a movie");
-  const { id } = req.params;
-  const { movieName, age } = req.body;
-  const movie = movies.find((movie) => movie.id === parseInt(id));
-  movie.movieName = movieName;
-  movie.age = age;
-  const response = {
-    status: "success",
-    msg: "Movie updated",
-    data: movie,
-  };
-  res.json(response);
-});
-
-router.delete("/movies/:id", (req, res) => {
-  // res.send("Delete Movie");
-  const { id } = req.params;
-  const movie = movies.find((movie) => movie.id === Number(id));
-
-  // Deleting movie important to use splice
-  const index = movies.indexOf(movie);
-  movies.splice(index, 1);
-
-  const response = {
-    status: "success",
-    msg: "Movie deleted",
-    data: movies,
-  };
-  res.json(response);
-});
+router.delete("/movies/:id", deleteMovie);
 
 module.exports = router;
