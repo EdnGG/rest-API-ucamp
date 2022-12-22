@@ -12,7 +12,7 @@ const getAllMovies = async (req, res) => {
   } catch (err) {
     res.status(500).json({
       status: "error",
-      msg: err,
+      msg: err.message,
     });
   }
 };
@@ -51,7 +51,7 @@ const updateMovie = async (req, res) => {
   } catch (err) {
     res.status(500).json({
       status: "error",
-      msg: err,
+      msg: err.message,
     });
   }
 };
@@ -68,7 +68,7 @@ const deleteMovie = async (req, res) => {
   } catch (err) {
     res.status(500).json({
       status: "error",
-      msg: err,
+      msg: err.message,
     });
   }
 };
