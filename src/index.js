@@ -24,8 +24,9 @@ dbConnection();
 
 // ROUTES
 app.use(require("./routes/index"));
-app.use(require("./routes/movies.routes"));
+app.use(require("./routes/auth.routes"));
 app.use(require("./routes/user.routes"));
+app.use(require("./routes/movies.routes"));
 
 app.listen(PORT, () => {
   console.log(`\x1b[32m ***************************************** \x1b[0m`);

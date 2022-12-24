@@ -3,17 +3,16 @@ const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
 
 // CONNECT TO MONGODB
-const URI_LOCAL = process.env.URI_LOCAL;
-const URI_CLOUD = process.env.URI_CLOUD;
+const URI_MONGODB = process.env.URI_MONGODB;
 
-const options = {
+const OPTIONS = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 };
 
 const dbConnection = async () => {
   try {
-    await mongoose.connect(URI_CLOUD);
+    await mongoose.connect(URI_MONGODB, OPTIONS);
     console.log(`\x1b[34m ***************************************** \x1b[0m`);
     console.log(`\x1b[34m ** SUCCESSFULLY CONNECT TO MONGODB ** \x1b[0m`);
     console.log(`\x1b[34m ***************************************** \x1b[0m`);
