@@ -1,16 +1,14 @@
 const Movies = require("../models/movieSchema");
+const { msg, msgError, restApi } = require("../helpers/helpers.js");
 
 const getAllMovies = async (req, res) => {
   try {
+    msg("GETTING ALL MOVIES");
     const movies = await Movies.find();
-    res.json({
-      status: "success",
-      msg: "Get all movies",
-      data: movies,
-      total: movies.length,
-    });
+    return restApi(res, "GETTING ALL MOVIES SUCCESSFULLY", movies);
   } catch (err) {
-    res.status(500).json({
+    msgError("ERROR GETTING ALL MOVIES");
+    return res.status(500).json({
       status: "error",
       msg: err.message,
     });
@@ -19,17 +17,13 @@ const getAllMovies = async (req, res) => {
 
 const postMovie = async (req, res) => {
   try {
+    msg("POSTING A NEW MOVIE");
     console.log("body: ", req.body);
-    const { body } = req;
-
-    const newMovie = await Movies.create(body);
-    res.json({
-      status: "success",
-      msg: "New movie posted",
-      data: newMovie,
-    });
+    const newMovie = await Movies.create(req.body);
+    return restApi(res, "MOVIE CREATED SUCCESSFULLY", newMovie);
   } catch (err) {
-    res.status(500).json({
+    msgError("ERROR POSTING A MOVIE");
+    return res.status(500).json({
       status: "error",
       msg: err.message,
     });
@@ -38,18 +32,18 @@ const postMovie = async (req, res) => {
 
 const updateMovie = async (req, res) => {
   try {
-    const { body } = req;
-    const { id } = req.params;
-    const updatedMovie = await Movies.findByIdAndUpdate(id, body, {
-      new: true,
-    });
-    res.json({
-      status: "success",
-      msg: "Movie updated",
-      data: updatedMovie,
-    });
+    msg("UPDATING A MOVIE");
+    const updatedMovie = await Movies.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+      }
+    );
+    restApi(res, "MOVIE UPDATED SUCCESSFULLY", updatedMovie);
   } catch (err) {
-    res.status(500).json({
+    msgError("ERROR UPDATING MOVIE");
+    return res.status(500).json({
       status: "error",
       msg: err.message,
     });
@@ -58,14 +52,17 @@ const updateMovie = async (req, res) => {
 
 const deleteMovie = async (req, res) => {
   try {
-    const { id } = req.params;
-    const deletedMovie = await Movies.findByIdAndDelete(id);
-    res.json({
-      status: "success",
-      msg: "Movie deleted",
-      data: deletedMovie,
-    });
+    msg("DELETING A MOVIE");
+    // const { id } = req.params;
+    const deletedMovie = await Movies.findByIdAndDelete(req.params.id);
+    restApi(res, "MOVIE DELETED SUCCESSFULLY", deletedMovie);
+    // res.json({
+    //   status: "success",
+    //   msg: "Movie deleted",
+    //   data: deletedMovie,
+    // });
   } catch (err) {
+    msgError("ERROR DELETING MOVIE");
     res.status(500).json({
       status: "error",
       msg: err.message,

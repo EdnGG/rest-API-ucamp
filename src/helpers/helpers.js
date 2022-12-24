@@ -1,5 +1,13 @@
 const msg = (msj) => {
-  console.log(`\x1b[36m%s\x1b[0m`, `Succesfully connected to Mongo DB `);
+  console.log(`\x1b[33m ${msj}  \x1b[0m`);
+};
+
+const msgError = (msg) => {
+  console.log(`\x1b[31m ${msg}  \x1b[0m`);
+  // res.status(500).json({
+  //   // msg: err.message,
+  //   status: "ERROR",
+  // });
 };
 
 const restApi = (res, msg, data) => {
@@ -12,5 +20,6 @@ const restApi = (res, msg, data) => {
 
 module.exports = {
   msg,
+  msgError,
   restApi,
 };

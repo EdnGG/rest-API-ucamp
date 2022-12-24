@@ -1,5 +1,6 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
+mongoose.set("strictQuery", false);
 
 // CONNECT TO MONGODB
 const URI_LOCAL = process.env.URI_LOCAL;
@@ -10,13 +11,19 @@ const options = {
   useUnifiedTopology: true,
 };
 
-const connetDB = async () => {
+const dbConnection = async () => {
   try {
-    await mongoose.connect(URI_CLOUD, options);
-    console.log(`Succesfully connected to Mongo DB `);
-  } catch (error) {
-    console.log(`Error connecting to Mongo DB: ${error}`);
+    await mongoose.connect(URI_CLOUD);
+    console.log(`\x1b[34m ***************************************** \x1b[0m`);
+    console.log(`\x1b[34m ** SUCCESSFULLY CONNECT TO MONGODB ** \x1b[0m`);
+    console.log(`\x1b[34m ***************************************** \x1b[0m`);
+  } catch (err) {
+    console.log(`\x1b[31m ************************** \x1b[0m`);
+    console.log(
+      `\x1b[31m ** ERROR CONNECTING TO MONGODB ${err.message} **\x1b[0m`
+    );
+    console.log(`\x1b[31m ************************** \x1b[0m`);
   }
 };
 
-module.exports = connetDB;
+module.exports = dbConnection;
