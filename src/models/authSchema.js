@@ -4,15 +4,15 @@ const Schema = mongoose.Schema;
 const authSchema = new Schema({
   name: {
     type: String,
-    required: true,
+    required: [true, "Name is required"],
   },
   email: {
     type: String,
-    required: true,
+    required: [true, "Email is required"],
   },
   password: {
     type: String,
-    required: true,
+    required: [true, "Password is required"],
   },
   date: {
     type: Date,
