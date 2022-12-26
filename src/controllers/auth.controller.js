@@ -36,7 +36,7 @@ const signup = async (req, res) => {
     }
 
     bcrypt.hashSync(req.body.password, saltRounds);
-
+    console.log("Body: ", body);
     const newUser = await Auth.create(body);
     return restApi(res, "USER CREATED SUCCESSFULL ,", newUser);
   } catch (err) {

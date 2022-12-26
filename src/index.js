@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 dbConnection();
 
 // ROUTES
-app.use(require("./routes/index"));
+app.use(require("./routes/index.routes"));
 app.use(require("./routes/auth.routes"));
 app.use(require("./routes/user.routes"));
 app.use(require("./routes/movies.routes"));
