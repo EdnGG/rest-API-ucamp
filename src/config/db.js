@@ -1,6 +1,6 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
-// mongoose.set("strictQuery", false);
+mongoose.set("strictQuery", false);
 
 // CONNECT TO MONGODB
 const URI_MONGODB = process.env.URI_MONGODB;
