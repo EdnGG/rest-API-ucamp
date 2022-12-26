@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const uniqueValidator = require("mongoose-unique-validator");
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
@@ -9,6 +10,7 @@ const userSchema = new Schema({
   email: {
     type: String,
     required: [true, "Email is required"],
+    unique: true,
   },
   password: {
     type: String,
@@ -21,6 +23,13 @@ const userSchema = new Schema({
   // relacion con sus peliculas y libros
   movies: { type: String, required: false },
   books: { type: String, required: false },
+});
+
+/* { PATH } Sera reemplazado por el campo con el atributo 'unique' declarado
+en este caso seria 'email'
+*/
+userSchema.plugin(uniqueValidator, {
+  message: "Error, waiting for unique {PATH} ",
 });
 
 const User = mongoose.model("user", userSchema);
