@@ -19,7 +19,7 @@ app.use(express.json());
 */
 app.use(express.urlencoded({ extended: true }));
 
-// CONNECT TO MONGODB
+// CONNECT TO MONGO-DB
 dbConnection();
 
 // ROUTES
