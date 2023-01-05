@@ -29,7 +29,7 @@ const guitarSchema = new Schema({
 /* { PATH } Sera reemplazado por el campo con el atributo 'unique' declarado
 en este caso seria 'email'
 */
-userSchema.plugin(uniqueValidator, {
+guitarSchema.plugin(uniqueValidator, {
   message: "Error, waiting for unique {PATH} ",
 });
 

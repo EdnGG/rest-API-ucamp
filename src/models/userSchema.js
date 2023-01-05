@@ -23,6 +23,7 @@ const userSchema = new Schema({
   // relacion con sus peliculas y libros
   movies: { type: String, required: false },
   books: { type: String, required: false },
+  guitars: { type: String, required: false },
 });
 
 /* { PATH } Sera reemplazado por el campo con el atributo 'unique' declarado

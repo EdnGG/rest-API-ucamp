@@ -24,10 +24,6 @@ dbConnection();
 
 // ROUTES
 app.use(require("./routes/index.routes.js"));
-app.use(require("./routes/auth.routes.js"));
-app.use(require("./routes/user.routes.js"));
-app.use(require("./routes/movies.routes.js"));
-app.use(require("./routes/guitars.routes.js"));
 
 app.listen(PORT, () => {
   console.log(`\x1b[32m ***************************************** \x1b[0m`);

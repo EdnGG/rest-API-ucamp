@@ -1,19 +1,19 @@
 const express = require("express");
 const router = express.Router();
 const {
-  postMovie,
-  getAllMovies,
-  updateMovie,
-  deleteMovie,
-} = require("../controllers/movies.controller.js");
+  postGuitar,
+  getAllGuitars,
+  updateGuitar,
+  deleteGuitar,
+} = require("../controllers/guitar.controller.js");
 const { tokenVerification } = require("../middlewares/authToken.js");
 
-router.get("/movies", getAllMovies);
+router.get("/movies", getAllGuitars);
 
-router.post("/movies", tokenVerification, postMovie);
+router.post("/movies", tokenVerification, postGuitar);
 
-router.put("/movies/:id", tokenVerification, updateMovie);
+router.put("/movies/:id", tokenVerification, updateGuitar);
 
-router.delete("/movies/:id", tokenVerification, deleteMovie);
+router.delete("/movies/:id", tokenVerification, deleteGuitar);
 
 module.exports = router;
