@@ -12,7 +12,6 @@ const getAllBooks = async (req, res) => {
   }
 };
 
-// GET A BOOK
 const getBook = async (req, res) => {
   try {
     const book = await Book.findById(req.params.id);
