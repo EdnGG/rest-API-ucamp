@@ -74,38 +74,10 @@ const signup = async (req, res) => {
         message: "Please fill up all fields correctly",
       });
     }
-    const hashedPassword = bcrypt.hashSync(req.body.password, saltRounds);
-
-    const user = await User.create({
-      name,
-      email,
-      password: hashedPassword,
-    });
-
-    const payload = {
-      user: {
-        id: user._id,
-      },
-    };
-
-    const userCreated = jwt.sign(
-      payload,
-      process.env.SECRET_TOKEN_KEY,
-      {
-        expiresIn: 60 * 60 * 24,
-      },
-      (err, token) => {
-        if (err) throw err;
-        res.json({ token });
-      }
-    );
-
-    return res.json({
-      msg: "USER CREATED SUCCESSFULLY",
-      // total: data.length,
-      data: userCreated,
-    });
-    // return restApi(res, "USER CREATED SUCCESSFULL ,", userCreated);
+    // bcrypt.hashSync(req.body.password, saltRounds);
+    console.log("Body: ", body);
+    const newUser = await User.create(body);
+    return restApi(res, "USER CREATED SUCCESSFULL ,", newUser);
   } catch (err) {
     msgError("ERROR POSTING A USER");
     return res.status(500).json({
