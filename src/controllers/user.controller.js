@@ -112,17 +112,16 @@ const login = async (req, res) => {
       // });
       // Token con solo el id del usuario
       const token = jwt.sign({ data: user._id }, process.env.SECRET_TOKEN_KEY, {
-        expiresIn: 60 * 60 * 24, 
+        expiresIn: 60 * 60 * 24,
       });
       user.token = token;
-      console.log('Token: ', token);
-    }
-    else { 
+      console.log("Token: ", token);
+    } else {
       return res.status(400).json({
         message: "User not found",
       });
     }
-      
+
     // user.token = token;
     return restApi(res, "USER LOGGED IN SUCCESSFULLY", user);
   } catch (err) {
