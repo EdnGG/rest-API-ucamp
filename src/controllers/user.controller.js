@@ -66,22 +66,42 @@ const deleteUser = async (req, res) => {
 
 const signup = async (req, res) => {
   try {
+    const { name, email, password } = req.body;
     msg("SIGNING UP A NEW USER");
-    const body = {
-      name: req.body.name,
-      email: req.body.email,
-    };
-    body.password = bcrypt.hashSync(req.body.password, saltRounds);
 
-    if (!body.name && !req.body.password && !body.email) {
+    if (!name && !password && !email) {
       return res.status(400).json({
         message: "Please fill up all fields correctly",
       });
     }
-    // bcrypt.hashSync(req.body.password, saltRounds);
-    console.log("Body: ", body);
-    const newUser = await User.create(body);
-    return restApi(res, "USER CREATED SUCCESSFULL ,", newUser);
+    const hashedPassword = bcrypt.hashSync(req.body.password, saltRounds);
+
+    const user = await User.create({
+      name,
+      email,
+      password: hashedPassword,
+    });
+
+    const payload = {
+      user: {
+        id: user._id,
+      },
+    };
+
+    const userCreated = jwt.sign(
+      payload,
+      process.env.SECRET_TOKEN_KEY,
+      {
+        expiresIn: 60 * 60 * 24,
+      },
+      (err, token) => {
+        if (err) throw err;
+        res.json({ token });
+      }
+    );
+
+    // const newUser = await User.create(body);
+    return restApi(res, "USER CREATED SUCCESSFULL ,", userCreated);
   } catch (err) {
     msgError("ERROR POSTING A USER");
     return res.status(500).json({
