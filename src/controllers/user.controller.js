@@ -135,19 +135,31 @@ const login = async (req, res) => {
       //   expiresIn: 60 * 60 * 24,
       // });
       // Token con solo el id del usuario
-      const token = jwt.sign({ data: user._id }, process.env.SECRET_TOKEN_KEY, {
-        expiresIn: 60 * 60 * 24,
-      });
-      user.token = token;
+      jwt.sign(
+        {
+          user: {
+            id: user.id,
+          },
+        },
+        process.env.SECRET_TOKEN_KEY,
+        {
+          expiresIn: 60 * 60 * 24,
+        },
+        (err, token) => {
+          if (err) throw err;
+          res.json({ token });
+        }
+      );
+      // user.token = token;
       console.log("Token: ", token);
+      console.log("User: ", user);
     } else {
       return res.status(400).json({
         message: "User not found",
       });
     }
 
-    // user.token = token;
-    return restApi(res, "USER LOGGED IN SUCCESSFULLY", user);
+    // return restApi(res, "USER LOGGED IN SUCCESSFULLY", user);
   } catch (err) {
     msgError("ERROR LOGGING IN USER");
     return res.status(500).json({
