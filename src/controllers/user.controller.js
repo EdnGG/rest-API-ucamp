@@ -1,5 +1,4 @@
 const User = require("../models/userSchema");
-const Auth = require("../models/authSchema");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { msg, msgError, restApi } = require("../helpers/helpers.js");
@@ -191,6 +190,20 @@ const logOut = async (req, res) => {
   }
 };
 
+const verificar = async (req, res) => {
+  try {
+    // CONFIRMAMOS QUE EL USUARIO EXISTA EN BASE DE DATOS Y RETORNAMOS SUS DATOS, EXCLUYENDO EL PASSWORD
+    const usuario = await User.findById(req.user.id).select("-password");
+    res.json({ usuario });
+  } catch (error) {
+    // EN CASO DE ERROR DEVOLVEMOS UN MENSAJE CON EL ERROR
+    res.status(500).json({
+      msg: "Hubo un error",
+      error,
+    });
+  }
+};
+
 module.exports = {
   getAllUsers,
   postUser,
@@ -199,4 +212,5 @@ module.exports = {
   signup,
   login,
   logOut,
+  verificar,
 };

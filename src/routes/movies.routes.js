@@ -7,14 +7,14 @@ const {
   updateMovie,
   deleteMovie,
 } = require("../controllers/movies.controller.js");
-const { tokenVerification } = require("../middlewares/authToken.js");
+// const { auth } = require("../middlewares/authToken.js");
 
 router.get("/movies", getAllMovies);
 
-router.post("/movies", tokenVerification, postMovie);
+router.post("/movies", postMovie);
 
-router.put("/movies/:id", tokenVerification, updateMovie);
+router.put("/movies/:id", updateMovie);
 
-router.delete("/movies/:id", tokenVerification, deleteMovie);
+router.delete("/movies/:id", deleteMovie);
 
 module.exports = router;

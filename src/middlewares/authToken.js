@@ -1,34 +1,27 @@
 const jwt = require("jsonwebtoken");
 
-const tokenVerification = (req, res, next) => {
-  // const token = req.headers["x-access-token"];
-  
-  const token = req.get('token')
-  console.log('Token from headers: ', token)
-  // const token = req.query.token;
-  // console.log("Token I got from req.quey.token: ", token);
-  jwt.verify(token, process.env.SECRET_TOKEN_KEY, (err, decoded) => {
-    if (err) {
-      return res.status(401).json({
-        message: "Invalid user",
-      });
-    }
-    // Adding the 'user' propertiy to the 'req' object
-    req.user = decoded.data;
-    next();
-  });
-};
-
-const verificarAdministrador = (req, res, next) => {
-  const role = req.usuario.role;
-
-  if (role === "ADMIN") {
-    next();
-  } else {
+const auth = (req, res, next) => {
+  // EXTRAEMOS EL TOKEN QUE VIENE DESDE LA PETICIÓN
+  const token = req.header("x-auth-token");
+  // SI NO HAY TOKEN, RETORNAMOS UN ERROR
+  if (!token) {
     return res.status(401).json({
-      mensaje: "Invalid user",
+      msg: "No hay token, permiso no válido",
+    });
+  }
+  try {
+    // CONFIRMAMOS LA VERIFICACIÓN DEL TOKEN A TRAVÉS DE LA LIBRERÍA DE JWT
+    const openToken = jwt.verify(token, process.env.SECRET_TOKEN_KEY);
+    // SI TODO ESTÁ CORRECTO, A LA PETICIÓN LE ANCLAMOS UNA PROPIEDAD ADICIONAL CON EL TOKEN DESCIFRADO
+    req.user = openToken.user;
+    // NEXT, AL INVOCARSE, PERMITE AVANZAR A LA SIGUIENTE FUNCIÓN
+    next();
+  } catch (error) {
+    res.json({
+      msg: "Hubo un error",
+      error,
     });
   }
 };
 
-module.exports = { tokenVerification, verificarAdministrador };
+module.exports = { auth };

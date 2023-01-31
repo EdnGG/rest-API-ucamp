@@ -6,14 +6,14 @@ const {
   updateGuitar,
   deleteGuitar,
 } = require("../controllers/guitar.controller.js");
-const { tokenVerification } = require("../middlewares/authToken.js");
+// const { auth } = require("../middlewares/authToken.js");
 
 router.get("/guitars", getAllGuitars);
 
-router.post("/guitar", tokenVerification, postGuitar);
+router.post("/guitar", postGuitar);
 
-router.put("/guitar/:id", tokenVerification, updateGuitar);
+router.put("/guitar/:id", updateGuitar);
 
-router.delete("/guitar/:id", tokenVerification, deleteGuitar);
+router.delete("/guitar/:id", deleteGuitar);
 
 module.exports = router;
