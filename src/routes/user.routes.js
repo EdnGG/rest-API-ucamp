@@ -23,6 +23,19 @@ router.post("/user/signup", signup);
 
 router.post("/user/login", login);
 
-router.get("/user/verify", auth, verificar);
+// checar 'verificar'
+router.get("/user/verify", auth, async (req, res) => {
+  try {
+    // CONFIRMAMOS QUE EL USUARIO EXISTA EN BASE DE DATOS Y RETORNAMOS SUS DATOS, EXCLUYENDO EL PASSWORD
+    const usuario = await Usuario.findById(req.user.id).select("-password");
+    res.json({ usuario });
+  } catch (error) {
+    // EN CASO DE ERROR DEVOLVEMOS UN MENSAJE CON EL ERROR
+    res.status(500).json({
+      msg: "Hubo un error en verificar",
+      error,
+    });
+  }
+});
 
 module.exports = router;

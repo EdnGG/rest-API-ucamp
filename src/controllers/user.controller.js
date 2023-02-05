@@ -87,7 +87,7 @@ const signup = async (req, res) => {
       },
     };
 
-    const userCreated = jwt.sign(
+    jwt.sign(
       payload,
       process.env.SECRET_TOKEN_KEY,
       {
@@ -99,11 +99,12 @@ const signup = async (req, res) => {
       }
     );
 
-    return res.json({
-      msg: "USER CREATED SUCCESSFULLY",
-      // total: data.length,
-      data: userCreated,
-    });
+    console.log("user created: ", user);
+    // return res.json({
+    //   msg: "USER CREATED SUCCESSFULLY",
+    // total: data.length,
+    //   data: userCreated,
+    // });
     // return restApi(res, "USER CREATED SUCCESSFULL ,", userCreated);
   } catch (err) {
     msgError("ERROR POSTING A USER");
@@ -129,11 +130,6 @@ const login = async (req, res) => {
       });
     }
     if (user.email && user.password) {
-      // Token con toda la info del usuario
-      // const token = jwt.sign({ data: user }, process.env.SECRET_TOKEN_KEY, {
-      //   expiresIn: 60 * 60 * 24,
-      // });
-      // Token con solo el id del usuario
       jwt.sign(
         {
           user: {
@@ -149,15 +145,11 @@ const login = async (req, res) => {
           res.json({ token });
         }
       );
-      // user.token = token;
-      console.log("Token: ", token);
-      console.log("User: ", user);
     } else {
       return res.status(400).json({
         message: "User not found",
       });
     }
-
     // return restApi(res, "USER LOGGED IN SUCCESSFULLY", user);
   } catch (err) {
     msgError("ERROR LOGGING IN USER");
@@ -192,14 +184,16 @@ const logOut = async (req, res) => {
 
 const verificar = async (req, res) => {
   try {
+    console.log("VERIFICANDO USUARIO 1: ", req);
+    console.log("VERIFICANDO USUARIO 2: ", req.user);
     // CONFIRMAMOS QUE EL USUARIO EXISTA EN BASE DE DATOS Y RETORNAMOS SUS DATOS, EXCLUYENDO EL PASSWORD
-    const usuario = await User.findById(req.user.id).select("-password");
+    const usuario = await User.findById(req.user._id).select("-password");
     res.json({ usuario });
   } catch (error) {
     // EN CASO DE ERROR DEVOLVEMOS UN MENSAJE CON EL ERROR
     res.status(500).json({
-      msg: "Hubo un error",
-      error,
+      msg: "Error on method called 'verificar'",
+      error: error.message,
     });
   }
 };
